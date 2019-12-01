@@ -21,9 +21,6 @@
         <td class="text-xs-center">{{ props.item.username }}</td>
         <td class="text-xs-center">{{ props.item.phone }}</td>
         <td class="justify-center layout px-0">
-          <v-btn icon @click="editBrand(props.item)">
-            <i class="el-icon-edit"/>
-          </v-btn>
           <v-btn icon @click="deleteUser(props)">
             <i class="el-icon-delete"/>
           </v-btn>
@@ -92,14 +89,14 @@
       }
     },
     created(){
-      this.$http.get("/auth/verify")
-        .then(() => { // 这里使用箭头函数
+      // this.$http.get("/auth/verify")
+      //   .then(() => { // 这里使用箭头函数
           
-        })
-        .catch(()=>{
-            // 未登录
-            this.$router.push("/login");
-        })
+      //   })
+      //   .catch(()=>{
+      //       // 未登录
+      //       this.$router.push("/login");
+      //   })
     },
     methods: {
       getDataFromServer() { // 从服务的加载数的方法。
@@ -118,28 +115,6 @@
           // 完成赋值后，把加载状态赋值为false
           this.loading = false;
         })
-      },
-      addBrand() {
-        // 修改标记
-        this.isEdit = false;
-        // 控制弹窗可见：
-        this.show = true;
-        // 把oldBrand变为null
-        this.oldBrand = null;
-      },
-      editBrand(oldBrand){
-        // 根据用户信息查询商品分类
-        this.$http.get("/item/brand/" + oldBrand.id)
-          .then(({data}) => {
-            // 修改标记
-            this.isEdit = true;
-            // 控制弹窗可见：
-            this.show = true;
-            // 获取要编辑的brand
-            this.oldBrand = oldBrand
-            // 回显商品分类
-            this.oldBrand.categories = data;
-          })
       },
       deleteUser(props){
         this.$message.confirm('此操作将永久删除数据，是否继续?', '提示', {
