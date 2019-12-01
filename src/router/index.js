@@ -30,6 +30,7 @@ export default new Router({
         route("/user/statistics",'/user/Statistics',"Statistics"),
         route("/user/list",'/user/User',"User"),
         route("/trade/promotion",'/trade/Promotion',"Promotion"),
+        route("/trade/order",'/trade/Order',"Order"),
         route("/authority/member",'/authority/Member',"Member"),
         route("/authority/role",'/authority/Role',"Role"),
         route("/authority/list",'/authority/List',"List"),

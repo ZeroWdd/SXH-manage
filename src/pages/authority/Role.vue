@@ -115,14 +115,14 @@
       }
     },
     created(){
-      // this.$http.get("/auth/verify")
-      //   .then(() => { // 这里使用箭头函数
+      this.$http.get("/auth/verify")
+        .then(() => { // 这里使用箭头函数
           
-      //   })
-      //   .catch(()=>{
-      //       // 未登录
-      //       this.$router.push("/login");
-      //   })
+        })
+        .catch(()=>{
+            // 未登录
+            this.$router.push("/login");
+        })
     },
     methods: {
       getDataFromServer() { // 从服务的加载数的方法。
