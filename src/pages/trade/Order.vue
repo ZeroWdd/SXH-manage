@@ -8,6 +8,7 @@
       <v-btn color="primary" @click="statusCode=5;getDataFromServer()">交易关闭</v-btn>
       <v-btn color="primary" @click="statusCode=6;getDataFromServer()">已评论</v-btn>
       <v-btn color="primary" @click="statusCode=null;getDataFromServer()">全部</v-btn>
+      <v-btn color="success" @click="reBack()">返回</v-btn>
       <!--搜索框，与search属性关联-->
       <v-spacer/>
       <v-flex xs3>
@@ -37,16 +38,34 @@
           <v-btn icon @click="deleteOrder(props)">
             <i class="el-icon-delete"/>
           </v-btn>
+          <v-btn icon @click="showOrderDetail(props)">
+            <i class="el-icon-menu"/>
+          </v-btn>
         </td>
       </template>
     </v-data-table>
     <!--弹出的对话框-->
+    <v-dialog max-width="700" v-model="show" persistent scrollable>
+      <v-card>
+        <!--对话框的标题-->
+        <v-toolbar dense dark color="primary">
+          <v-toolbar-title>订单详情</v-toolbar-title>
+          <v-spacer/>
+          <!--关闭窗口的按钮-->
+          <v-btn icon @click="closeWindow"><v-icon>close</v-icon></v-btn>
+        </v-toolbar>
+        <!--对话框的内容，表单-->
+        <v-card-text class="px-5" style="height:400px">
+          <order-form @close="closeWindow" :oldOrder="oldOrder"/>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
   </v-card>
 </template>
 
 <script>
   // 导入自定义的表单组件
-  // import BrandForm from '../item/BrandForm'
+  import OrderForm from './OrderForm'
 
   export default {
     name: "order",
@@ -64,8 +83,7 @@
           {text: '操作', align: 'center', value: 'id', sortable: false}
         ],
         show: false,// 控制对话框的显示
-        oldBrand: {}, // 即将被编辑的用户数据
-        isEdit: false, // 是否是编辑
+        oldOrder: {}, // 即将被编辑的用户数据
         userId : 0,
         statusCode : null,
       }
@@ -144,16 +162,21 @@
         // 关闭窗口
         this.show = false;
       },
-      showStatus(status){
-        this.$http.get("/order/order/status/" + status + "/" + this.userId).then(resp => {
-
+      showOrderDetail(props){
+        this.$http.get("/order/order/" + props.item.orderId).then(resp => {
+          // 控制弹窗可见：
+          this.show = true;
+          this.oldOrder = resp.data;
         }).catch(()=>{
           
         })
+      },
+      reBack(){
+        this.$router.push({path:`/trade/UserOrder`});
       }
     },
     components:{
-        // BrandForm
+      OrderForm
     }
   }
 </script>
