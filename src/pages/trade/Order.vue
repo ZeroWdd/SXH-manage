@@ -1,6 +1,13 @@
 <template>
   <v-card>
     <v-card-title>
+      <v-btn color="primary" @click="statusCode=1;getDataFromServer()">未付款</v-btn>
+      <v-btn color="primary" @click="statusCode=2;getDataFromServer()">已付款</v-btn>
+      <v-btn color="primary" @click="statusCode=3;getDataFromServer()">未发货</v-btn>
+      <v-btn color="primary" @click="statusCode=4;getDataFromServer()">交易成功</v-btn>
+      <v-btn color="primary" @click="statusCode=5;getDataFromServer()">交易关闭</v-btn>
+      <v-btn color="primary" @click="statusCode=6;getDataFromServer()">已评论</v-btn>
+      <v-btn color="primary" @click="statusCode=null;getDataFromServer()">全部</v-btn>
       <!--搜索框，与search属性关联-->
       <v-spacer/>
       <v-flex xs3>
@@ -34,27 +41,12 @@
       </template>
     </v-data-table>
     <!--弹出的对话框-->
-    <v-dialog max-width="500" v-model="show" persistent scrollable>
-      <v-card>
-        <!--对话框的标题-->
-        <v-toolbar dense dark color="primary">
-          <v-toolbar-title>{{isEdit ? '修改' : '新增'}}用户</v-toolbar-title>
-          <v-spacer/>
-          <!--关闭窗口的按钮-->
-          <v-btn icon @click="closeWindow"><v-icon>close</v-icon></v-btn>
-        </v-toolbar>
-        <!--对话框的内容，表单-->
-        <v-card-text class="px-5" style="height:400px">
-          <brand-form @close="closeWindow" :oldBrand="oldBrand" :isEdit="isEdit"/>
-        </v-card-text>
-      </v-card>
-    </v-dialog>
   </v-card>
 </template>
 
 <script>
   // 导入自定义的表单组件
-  import BrandForm from '../item/BrandForm'
+  // import BrandForm from '../item/BrandForm'
 
   export default {
     name: "order",
@@ -67,13 +59,15 @@
         pagination: {}, // 分页信息
         headers: [
           {text: '订单id', align: 'center', value: 'orderId'},
-          {text: '用户id', align: 'center', value: 'userId'},
+          {text: '用户id', align: 'center', sortable: false, value: 'userId'},
           {text: '订单状态', align: 'center', sortable: false, value: 'status'},
           {text: '操作', align: 'center', value: 'id', sortable: false}
         ],
         show: false,// 控制对话框的显示
         oldBrand: {}, // 即将被编辑的用户数据
         isEdit: false, // 是否是编辑
+        userId : 0,
+        statusCode : null,
       }
     },
     mounted() { // 渲染后执行
@@ -97,7 +91,8 @@
     created(){
       this.$http.get("/auth/verify")
         .then(() => { // 这里使用箭头函数
-
+          // this.userId = this.$route.params.userId;
+          // console.log(this.userId)
         })
         .catch(()=>{
             // 未登录
@@ -107,19 +102,24 @@
     methods: {
       getDataFromServer() { // 从服务的加载数的方法。
         // 发起请求
+        this.userId = this.$route.params.userId;
         this.$http.get("/order/order/page", {
           params: {
             key: this.search, // 搜索条件
             page: this.pagination.page,// 当前页
             rows: this.pagination.rowsPerPage,// 每页大小
             sortBy: this.pagination.sortBy,// 排序字段
-            desc: this.pagination.descending// 是否降序
+            desc: this.pagination.descending,// 是否降序
+            userId : this.userId,
+            statusCode : this.statusCode
           }
         }).then(resp => { // 这里使用箭头函数
           this.orders = resp.data.items;
           this.totalOrders = resp.data.total;
           // 完成赋值后，把加载状态赋值为false
           this.loading = false;
+        }).catch(() => {
+            this.orders = [];
         })
       },
       deleteOrder(props){
@@ -143,10 +143,17 @@
         this.getDataFromServer();
         // 关闭窗口
         this.show = false;
+      },
+      showStatus(status){
+        this.$http.get("/order/order/status/" + status + "/" + this.userId).then(resp => {
+
+        }).catch(()=>{
+          
+        })
       }
     },
     components:{
-        BrandForm
+        // BrandForm
     }
   }
 </script>

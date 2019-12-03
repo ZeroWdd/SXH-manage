@@ -106,7 +106,7 @@
   export default {
     data() {
       return {
-        dark: true,// 是否暗黑主题
+        dark: false,// 是否暗黑主题
         drawer: true,// 左侧导航是否隐藏
         miniVariant: false,// 左侧导航是否收起
         title: '乐优商城后台管理',// 顶部导航条名称,

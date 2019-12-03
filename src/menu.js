@@ -31,7 +31,7 @@ var menus = [
     path:"/trade",
     items: [
       { title: "交易统计", path: "/statistics" },
-      { title: "订单管理", path: "/order" },
+      { title: "订单管理", path: "/userOrder" },
       { title: "物流管理", path: "/logistics" },
       { title: "促销管理", path: "/promotion" }
     ]
