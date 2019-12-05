@@ -176,7 +176,6 @@
         this.oldGoods = oldGoods;
       },
       closeWindow() {
-        console.log(1)
         // 重新加载数据
         this.getDataFromServer();
         // 关闭窗口
