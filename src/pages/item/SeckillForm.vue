@@ -32,8 +32,8 @@
           <v-btn color="info" @click="add" >保存秒杀商品</v-btn>
         </v-flex>
       </v-stepper-content>
-      
     </v-stepper-items>
+  
   </v-stepper>
 </template>
 

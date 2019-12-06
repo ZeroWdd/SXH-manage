@@ -1,5 +1,7 @@
 <template>
   <v-card>
+    <el-button type="primary" @click="goSeckill" style="margin-top: 10px;margin-bottom: 10px;margin-left:10px">返回秒杀页</el-button>
+    <el-button type="primary" @click="goSeckillSpu" style="margin-top: 10px;margin-bottom: 10px;margin-left:10px">返回上一层</el-button>
     <el-table
       :data="goodsList"
       style="width: 100%">
@@ -30,7 +32,6 @@
         </template>
       </el-table-column>
     </el-table>
-
     <!--弹出的对话框-->
     <v-dialog max-width="800" v-model="show" persistent scrollable>
       <v-card>
@@ -152,6 +153,12 @@
           this.step++
         }
       },
+      goSeckill(){
+        this.$router.push("/item/seckill");
+      },
+      goSeckillSpu(){
+        this.$router.push("/item/seckillSpu");
+      }
     },
     components: {
       elTable : Table,

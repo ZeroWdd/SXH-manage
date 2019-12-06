@@ -1,6 +1,7 @@
 <template>
   <v-card>
     <v-toolbar class="elevation-0">
+      <v-btn color="primary" @click="goSeckill">返回秒杀页</v-btn>
       <v-spacer/>
       <v-flex xs3>
         <v-text-field
@@ -104,6 +105,9 @@
           // 完成赋值后，把加载状态赋值为false
           this.loading = false;
         })
+      },
+      goSeckill(){
+        this.$router.push("/item/seckill");
       },
       toSku(props){
         this.$router.push({path:`/item/seckillSku/${props.item.id}`});
