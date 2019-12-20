@@ -28,7 +28,7 @@
 
 * 启动后端[SXH](https://github.com/ZeroWdd/leyou) 项目后，再`config/index.js` 中修改你的后端地址配置
 * 运行 `npm install` `npm run dev`
-* 修改本地`host`文件 将默认地址 http://localhost:9001 映射为 `manage.leyou.com`
+* 修改本地`host`文件 将虚拟机地址映射为 `manage.leyou.com`
 * 需要配合后端https://github.com/ZeroWdd/SXH ，具体后端安装过程请跳转至后端项目
 
 ## 基于SOA架构的分布式尚小惠购物商城
