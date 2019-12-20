@@ -76,11 +76,13 @@ export default {
       this.seckill.price = this.seckill.price * 100;
       this.$http.post("/seckill",this.seckill)
       .then(() => { // 这里使用箭头函数
-        
+        this.$message.success('添加成功');
+        this.seckill = {}
+         // 成功，关闭窗口
+        this.$emit("close");
       })
       .catch(()=>{
-          // 未登录
-          //this.$router.push("/login");
+          this.$message.error("保存失败！");
       })
     }
       
